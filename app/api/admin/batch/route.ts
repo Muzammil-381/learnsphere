@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { type NextRequest, NextResponse } from "next/server"
 import { getToken } from "next-auth/jwt"
 import { PrismaClient } from "@prisma/client"

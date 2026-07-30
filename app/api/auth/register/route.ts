@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { hashPassword, generateOTP, getOTPExpiry } from "@/lib/auth"
@@ -66,3 +67,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Registration failed" }, { status: 500 })
   }
 }
+

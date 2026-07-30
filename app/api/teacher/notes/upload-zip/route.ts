@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { type NextRequest, NextResponse } from "next/server"
 import { getToken } from "next-auth/jwt"
 import { prisma } from "@/lib/db"
@@ -400,4 +401,5 @@ async function generateNoteEmbeddings(
     // Don't throw - embedding generation failure shouldn't break note creation
   }
 }
+
 

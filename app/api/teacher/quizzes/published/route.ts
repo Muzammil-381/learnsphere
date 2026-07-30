@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { type NextRequest, NextResponse } from "next/server"
 import { getToken } from "next-auth/jwt"
 import { prisma } from "@/lib/db"
@@ -45,6 +46,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Failed to fetch quizzes" }, { status: 500 })
   }
 }
+
 
 
 
