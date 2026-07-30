@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2 } from "lucide-react" // Ensure lucide-react is installed
+export const dynamic = 'force-dynamic';
 
 export default function VerifyOTPPage() {
   const router = useRouter()
