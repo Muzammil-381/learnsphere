@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
-// 1. Core Form Logic Component
 function ResetPasswordForm() {
   const searchParams = useSearchParams()
   const token = searchParams.get("token")
@@ -59,7 +58,7 @@ function ResetPasswordForm() {
   )
 }
 
-// 2. Default Page Export wrapped in Suspense
+// Suspense Wrapper around the Page
 export default function ResetPasswordPage() {
   return (
     <Suspense fallback={<div className="flex min-h-screen items-center justify-center p-4">Loading reset screen...</div>}>
@@ -67,8 +66,3 @@ export default function ResetPasswordPage() {
     </Suspense>
   )
 }
-
-// 3. Dynamic route flags to prevent build static checks
-export const dynamic = 'force-dynamic';
-export const dynamicParams = true;
-export const revalidate = 0;

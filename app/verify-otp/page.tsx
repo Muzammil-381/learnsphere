@@ -9,12 +9,8 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2 } from "lucide-react"
 
-export const dynamic = 'force-dynamic';
-export const dynamicParams = true;
-export const revalidate = 0;
-
-// 1. AAPKA SAME CODE (Bas Component Name Rename Kiya Hai)
-function VerifyOTPContent() {
+// Component holding logic & useSearchParams
+function VerifyOTPForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const email = searchParams.get("email")
@@ -69,7 +65,7 @@ function VerifyOTPContent() {
     } else if (!email) {
       router.push("/login")
     }
-  }, [])
+  }, [email, from, router])
 
   useEffect(() => {
     if (countdown > 0) {
@@ -205,11 +201,11 @@ function VerifyOTPContent() {
   )
 }
 
-// 2. MAIN EXPORT (Is rendering se build failure protection activate hoti hai)
+// Suspense Wrapper around the Page
 export default function VerifyOTPPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <VerifyOTPContent />
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center p-4">Loading verification...</div>}>
+      <VerifyOTPForm />
     </Suspense>
   )
 }
