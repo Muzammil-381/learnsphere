@@ -1,16 +1,20 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle2 } from "lucide-react" // Ensure lucide-react is installed
-export const dynamic = 'force-dynamic';
+import { CheckCircle2 } from "lucide-react"
 
-export default function VerifyOTPPage() {
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+export const revalidate = 0;
+
+// 1. AAPKA SAME CODE (Bas Component Name Rename Kiya Hai)
+function VerifyOTPContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const email = searchParams.get("email")
@@ -62,7 +66,6 @@ export default function VerifyOTPPage() {
     if (from === "register" && email) {
       const storedPassword = typeof window !== "undefined" ? sessionStorage.getItem("registration_password") : null
       if (storedPassword) setPassword(storedPassword)
-     // sendOTP()
     } else if (!email) {
       router.push("/login")
     }
@@ -95,21 +98,16 @@ export default function VerifyOTPPage() {
         return;
       }
 
-      // 1. Visually confirm activation
       setIsActivated(true);
       setSuccess("Success! Your account is now ACTIVE.");
-
-      // 2. Clear state that is no longer needed
       setVerifying(false);
 
-      // 3. Handle Login and Redirect
-      // Use a slightly shorter delay (1.5s) for better UX
       setTimeout(async () => {
         if (from === "register" && password) {
           const loginResult = await signIn("credentials", {
             email,
             password,
-            redirect: false, // We handle the redirect manually below
+            redirect: false,
           });
 
           if (loginResult?.error) {
@@ -118,20 +116,16 @@ export default function VerifyOTPPage() {
             return;
           }
 
-          // Cleanup sensitive data
           sessionStorage.removeItem("registration_password");
           
-          // Role-based redirect logic
           const role = data.user?.role;
-          let destination = "/student/dashboard"; // Default
+          let destination = "/student/dashboard";
 
           if (role === "ADMIN") destination = "/admin";
           if (role === "TEACHER") destination = "/teacher/dashboard";
 
-          // Use window.location.href for a clean state reset on dashboard entry
           window.location.href = destination;
         } else {
-          // If not from registration flow, just go to login
           router.push("/login");
         }
       }, 1500);
@@ -153,8 +147,6 @@ export default function VerifyOTPPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            
-            {/* SUCCESS / ACTIVE STATE UI */}
             {success && (
               <div className={`p-4 rounded-md flex items-center gap-3 border ${
                 isActivated ? "bg-green-50 border-green-500 text-green-800" : "bg-blue-50 border-blue-200 text-blue-800"
@@ -210,5 +202,14 @@ export default function VerifyOTPPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+// 2. MAIN EXPORT (Is rendering se build failure protection activate hoti hai)
+export default function VerifyOTPPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyOTPContent />
+    </Suspense>
   )
 }
