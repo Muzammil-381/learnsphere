@@ -2,6 +2,9 @@ import { type NextRequest, NextResponse } from "next/server"
 import { getToken } from "next-auth/jwt"
 import { prisma } from "@/lib/db"
 
+// 🟢 FIX FOR DYNAMIC_SERVER_USAGE ERROR
+export const dynamic = "force-dynamic"
+
 export async function GET(request: NextRequest) {
   try {
     const token = await getToken({ req: request })

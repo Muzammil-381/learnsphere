@@ -6,6 +6,8 @@ import { authOptions } from "@/lib/auth-config"
 
 const prisma = new PrismaClient()
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     // Basic security check

@@ -3,6 +3,8 @@ import { getToken } from "next-auth/jwt"
 import { prisma } from "@/lib/db"
 import { hashPassword } from "@/lib/auth"
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const token = await getToken({ req: request })

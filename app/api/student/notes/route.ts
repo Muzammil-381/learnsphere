@@ -3,6 +3,8 @@ import { getToken } from "next-auth/jwt"
 import { prisma } from "@/lib/db"
 import { searchRelevantNotes } from "@/lib/vector-search" // Your existing RAG search utility
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const token = await getToken({ req })
