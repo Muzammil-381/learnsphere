@@ -1,15 +1,16 @@
 "use client"
 
-import type React from "react"
-import { useState, Suspense } from "react"
+import React, { useState, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
-function ResetPasswordForm() {
+export const dynamic = 'force-dynamic'
+
+function ResetPasswordContent() {
   const searchParams = useSearchParams()
-  const token = searchParams.get("token")
+  const token = searchParams ? searchParams.get("token") : null
   const router = useRouter()
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -58,11 +59,10 @@ function ResetPasswordForm() {
   )
 }
 
-// Suspense Wrapper around the Page
 export default function ResetPasswordPage() {
   return (
     <Suspense fallback={<div className="flex min-h-screen items-center justify-center p-4">Loading reset screen...</div>}>
-      <ResetPasswordForm />
+      <ResetPasswordContent />
     </Suspense>
   )
 }

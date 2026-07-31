@@ -1,7 +1,6 @@
 "use client"
 
-import type React from "react"
-import { useState, useEffect, useRef, Suspense } from "react"
+import React, { useState, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
@@ -9,12 +8,13 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2 } from "lucide-react"
 
-// Component holding logic & useSearchParams
-function VerifyOTPForm() {
+export const dynamic = 'force-dynamic'
+
+function VerifyOTPContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const email = searchParams.get("email")
-  const from = searchParams.get("from")
+  const email = searchParams ? searchParams.get("email") : null
+  const from = searchParams ? searchParams.get("from") : null
 
   const [otp, setOtp] = useState("")
   const [password, setPassword] = useState("")
@@ -138,7 +138,7 @@ function VerifyOTPForm() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-primary">Verify Your Account</CardTitle>
           <CardDescription>
-            Account activation for <strong>{email}</strong>
+            Account activation for <strong>{email || "User"}</strong>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -201,11 +201,10 @@ function VerifyOTPForm() {
   )
 }
 
-// Suspense Wrapper around the Page
 export default function VerifyOTPPage() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center p-4">Loading verification...</div>}>
-      <VerifyOTPForm />
+      <VerifyOTPContent />
     </Suspense>
   )
 }
